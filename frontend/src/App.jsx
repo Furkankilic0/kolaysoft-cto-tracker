@@ -5,6 +5,8 @@ import LoginPage from "./pages/LoginPage";
 import ProjectsPage from "./pages/ProjectsPage";
 import ReportsPage from "./pages/ReportsPage";
 import ReportFormPage from "./pages/ReportFormPage";
+import ReportDetailPage from "./pages/ReportDetailPage";
+import DashboardPage from "./pages/DashboardPage";
 
 function ProtectedRoute({ children, ctoOnly = false }) {
   const { currentUser, loading, isCto } = useAuth();
@@ -44,7 +46,7 @@ function AppRoutes() {
         path="/dashboard"
         element={
           <ProtectedRoute ctoOnly>
-            <Placeholder title="CTO Dashboard" />
+            <DashboardPage />
           </ProtectedRoute>
         }
       />
@@ -71,6 +73,14 @@ function AppRoutes() {
         element={
           <ProtectedRoute>
             <ReportFormPage />
+          </ProtectedRoute>
+        }
+      />
+            <Route
+        path="/reports/:id"
+        element={
+          <ProtectedRoute>
+            <ReportDetailPage />
           </ProtectedRoute>
         }
       />
