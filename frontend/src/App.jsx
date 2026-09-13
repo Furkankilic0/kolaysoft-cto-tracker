@@ -2,6 +2,9 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { AuthProvider, useAuth } from "./context/AuthContext";
 import Layout from "./components/Layout";
 import LoginPage from "./pages/LoginPage";
+import ProjectsPage from "./pages/ProjectsPage";
+import ReportsPage from "./pages/ReportsPage";
+import ReportFormPage from "./pages/ReportFormPage";
 
 function ProtectedRoute({ children, ctoOnly = false }) {
   const { currentUser, loading, isCto } = useAuth();
@@ -50,7 +53,24 @@ function AppRoutes() {
         path="/projects"
         element={
           <ProtectedRoute>
-            <Placeholder title="Projeler" />
+            <ProjectsPage />
+          </ProtectedRoute>
+        }
+      />
+            <Route
+        path="/reports/new"
+        element={
+          <ProtectedRoute>
+            <ReportFormPage />
+          </ProtectedRoute>
+        }
+      />
+
+      <Route
+        path="/reports/:id/edit"
+        element={
+          <ProtectedRoute>
+            <ReportFormPage />
           </ProtectedRoute>
         }
       />
@@ -59,7 +79,7 @@ function AppRoutes() {
         path="/reports"
         element={
           <ProtectedRoute>
-            <Placeholder title="Haftalik Raporlar" />
+            <ReportsPage />
           </ProtectedRoute>
         }
       />
