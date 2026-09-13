@@ -80,12 +80,7 @@ public class WeeklyReportService {
                                     + ". haftaya ait rapor zaten mevcut.");
                 });
 
-        if (report.getProgressPercentage() == null
-                || report.getProgressPercentage() < 0
-                || report.getProgressPercentage() > 100) {
-            throw new BusinessRuleException("Ilerleme yuzdesi 0-100 araliginda olmalidir.");
-        }
-
+        validateProgress(report);
         fillWeekDates(report);
 
         report.setProject(project);
@@ -103,10 +98,16 @@ public class WeeklyReportService {
             throw new BusinessRuleException("Gonderilmis bir rapor duzenlenemez.");
         }
 
+        validateProgress(updatedData);
+
         existing.setCompletedWork(updatedData.getCompletedWork());
         existing.setPlannedWork(updatedData.getPlannedWork());
         existing.setBlockers(updatedData.getBlockers());
-        existing.setProgressPercentage(updatedData.getProgressPercentage());
+        existing.setGeneralNote(updatedData.getGeneralNote());
+        existing.setTargetProgress(updatedData.getTargetProgress());
+        existing.setActualProgress(updatedData.getActualProgress());
+        existing.setActiveTaskCount(updatedData.getActiveTaskCount());
+        existing.setScheduleStatus(updatedData.getScheduleStatus());
         existing.setRiskLevel(updatedData.getRiskLevel());
 
         return reportRepository.save(existing);
@@ -154,6 +155,24 @@ public class WeeklyReportService {
         }
 
         reportRepository.delete(report);
+    }
+
+    private void validateProgress(WeeklyReport report) {
+        if (report.getTargetProgress() == null
+                || report.getTargetProgress() < 0
+                || report.getTargetProgress() > 100) {
+            throw new BusinessRuleException("Hedeflenen ilerleme 0-100 araliginda olmalidir.");
+        }
+
+        if (report.getActualProgress() == null
+                || report.getActualProgress() < 0
+                || report.getActualProgress() > 100) {
+            throw new BusinessRuleException("Gerceklesen ilerleme 0-100 araliginda olmalidir.");
+        }
+
+        if (report.getActiveTaskCount() != null && report.getActiveTaskCount() < 0) {
+            throw new BusinessRuleException("Canli task sayisi negatif olamaz.");
+        }
     }
 
     private void fillWeekDates(WeeklyReport report) {

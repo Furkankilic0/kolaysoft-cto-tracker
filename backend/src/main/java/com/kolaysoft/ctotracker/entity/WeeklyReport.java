@@ -2,6 +2,7 @@ package com.kolaysoft.ctotracker.entity;
 
 import com.kolaysoft.ctotracker.entity.enums.ReportStatus;
 import com.kolaysoft.ctotracker.entity.enums.RiskLevel;
+import com.kolaysoft.ctotracker.entity.enums.ScheduleStatus;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -51,7 +52,20 @@ public class WeeklyReport extends BaseEntity {
     private String blockers;
 
     @Column(nullable = false)
-    private Integer progressPercentage = 0;
+    private Integer targetProgress = 0;
+
+    @Column(nullable = false)
+    private Integer actualProgress = 0;
+
+    @Column(nullable = false)
+    private Integer activeTaskCount = 0;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false, length = 20)
+    private ScheduleStatus scheduleStatus = ScheduleStatus.ON_TRACK;
+
+    @Column(columnDefinition = "TEXT")
+    private String generalNote;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 20)

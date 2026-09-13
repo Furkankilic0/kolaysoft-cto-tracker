@@ -18,6 +18,9 @@ public class Project extends BaseEntity {
     @Column(nullable = false, length = 150)
     private String name;
 
+    @Column(length = 150)
+    private String customer;
+
     @Column(unique = true, length = 20)
     private String code;
 
@@ -26,7 +29,7 @@ public class Project extends BaseEntity {
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 30)
-    private ProjectStatus status = ProjectStatus.PLANNING;
+    private ProjectStatus status = ProjectStatus.PLANNED;
 
     private LocalDate startDate;
 
